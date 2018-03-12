@@ -95,12 +95,23 @@ private:
   VECTOR initial_value, rhs;
 };
 
-template <typename MATRIX, typename VECTOR>
-class CGSolver : public KrylovBase<VECTOR>{
+template <typename VECTOR>
+class CGSolverBase : public KrylovBase<VECTOR>{
   //...
 
-private:
-  const MATRIX * matrix;
+  virtual void vmult(VECTOR&, const VECTOR&);
+
 };
+
+template <typename MATRIX, typename VECTOR>
+class CGSolver : public CGSolverBase<VECTOR>{
+  //...
+
+  void vmult(VECTOR&, const VECTOR&) override;
+
+private:
+  MATRIX * matrix;
+};
+
 
 #endif
